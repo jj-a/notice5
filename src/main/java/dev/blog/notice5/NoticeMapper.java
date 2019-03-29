@@ -1,6 +1,7 @@
 package dev.blog.notice5;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface NoticeMapper {
 	/*
@@ -9,6 +10,7 @@ public interface NoticeMapper {
 	 */
 	public int create(NoticeDTO dto);
 	public ArrayList<NoticeDTO> list();
+	public ArrayList<NoticeDTO> search(HashMap<String, String> searchMap);
 	public NoticeDTO read(NoticeDTO dto);
 	public int update(NoticeDTO dto);
 	public int delete(NoticeDTO dto);

@@ -17,14 +17,26 @@ ORDER BY noticeno DESC
 ;
 
 SELECT noticeno, title, rname, rdate FROM notice5 
-WHERE name like '%' || #{keyword} || '%' 
+WHERE title LIKE '%' || #{keyword} || '%' 
 ORDER BY noticeno DESC 
 ;
 
 SELECT noticeno, title, rname, rdate FROM notice5 
+WHERE rname LIKE '%' || #{keyword} || '%' 
+ORDER BY noticeno DESC 
+;
+
+SELECT noticeno, title, rname, rdate FROM notice5 
+WHERE title LIKE '%' || #{keyword} || '%' OR rname LIKE '%' || #{keyword} || '%' 
+ORDER BY noticeno DESC 
+;
+
+-- 상세조회
+SELECT noticeno, title, rname, rdate FROM notice5 
 WHERE noticeno=#{noticeno} 
 ;
 
+-- 카운트
 SELECT COUNT(*) FROM notice5 
 ;
 

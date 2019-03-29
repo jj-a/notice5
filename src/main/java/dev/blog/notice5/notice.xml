@@ -36,14 +36,6 @@
 	</select>
 	
 	
-	<select id="read" parameterType="NoticeDTO" resultType="NoticeDTO">
-		<![CDATA[
-			SELECT noticeno, title, rname, rdate FROM notice5 
-			WHERE noticeno=#{noticeno} 
-		]]>
-	</select>
-	
-	
 	<sql id="tablename">
 		SELECT noticeno, title, rname, rdate FROM notice5 
 	</sql>
@@ -52,10 +44,25 @@
 		ORDER BY noticeno ASC 
 	</sql>
 	
-	<select id="search" resultMap="rs" parameterType="String">
+	<select id="search" parameterType="HashMap" resultType="NoticeDTO">
 		<!--  || : 문자열 연결의 의미로 쓰임. OR (X) -->
 		<include refid="tablename" />
-		WHERE name like '%' || #{keyword} || '%'
+		<choose>
+			<when test="col=='all'">
+				WHERE title LIKE '%' || #{keyword} || '%' OR rname LIKE '%' || #{keyword} || '%'
+			</when>
+			<when test="col=='title'">
+				WHERE title LIKE '%' || #{keyword} || '%'
+			</when>
+			<when test="col=='rname'">
+				WHERE rname LIKE '%' || #{keyword} || '%'
+			</when>
+			<!-- 
+			<otherwise>
+				WHERE #{col} LIKE '%' || #{keyword} || '%'
+			</otherwise>
+			 -->
+		</choose>
 		<include refid="sort" />
 	</select>
 	
@@ -67,6 +74,14 @@
 			WHERE noticeno=#{noticeno} 
 		]]>
 	</update>
+	
+	
+	<select id="read" parameterType="NoticeDTO" resultType="NoticeDTO">
+		<![CDATA[
+			SELECT noticeno, title, rname, rdate FROM notice5 
+			WHERE noticeno=#{noticeno} 
+		]]>
+	</select>
 
 
 	<delete id="delete" parameterType="NoticeDTO">

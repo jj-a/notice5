@@ -23,18 +23,43 @@ public class NoticeController {
 	/*
 	@RequestMapping(value="[요청명령어]", method=RequestMethod.[GET|POST], produces="text/plain; charset='UTF-8'")
 	 */
-
+	
+	// 목록 조회
 	@RequestMapping(value="notice/list.do", method=RequestMethod.GET)
 	public ModelAndView list(NoticeDTO dto) {
 		ModelAndView mav=new ModelAndView();
 		mav.setViewName("notice/list");
+
+		mav.addObject("msg", "전체 글 수");
+		mav.addObject("count", dao.count());
+		mav.addObject("list", dao.list());	// list 전달
 		
-		mav.addObject("list", dao.list(dto));	// list 전달
+		return mav;
+	} // list() end
+	
+	
+	// 목록 조회 (검색)
+	@RequestMapping(value="/notice/search.do", method=RequestMethod.GET)
+	public ModelAndView search(String col, String keyword) {
+		ModelAndView mav=new ModelAndView();
+		mav.setViewName("notice/list");
+		
+		String colstr;
+		if(col.equals("title")) colstr="내용";
+		else if(col.equals("rname")) colstr="작성자";
+		else colstr="내용+작성자";
+		
+		mav.addObject("msg", colstr+"에서 '"+keyword+"' 검색 결과");
+		mav.addObject("count", dao.count());
+		mav.addObject("list", dao.list(col,keyword));	// list 전달
+		mav.addObject("col", col);
+		mav.addObject("keyword", keyword);
 		
 		return mav;
 	} // list() end
 
 	
+	// 상세 조회
 	@RequestMapping(value="/notice/read.do", method=RequestMethod.GET)
 	public ModelAndView read(NoticeDTO dto) {
 		ModelAndView mav=new ModelAndView();
@@ -48,7 +73,8 @@ public class NoticeController {
 		return mav;
 	} // list() end
 	
-
+	
+	// 글 추가 (폼)
 	@RequestMapping(value="/notice/create.do", method=RequestMethod.GET)
 	public ModelAndView create(NoticeDTO dto) {
 		ModelAndView mav=new ModelAndView();
@@ -56,14 +82,15 @@ public class NoticeController {
 		return mav;
 	} // create() end
 	
-
+	
+	// 글 추가
 	@RequestMapping(value="/notice/create.do", method=RequestMethod.POST)
 	public ModelAndView createProc(NoticeDTO dto, HttpServletRequest req) {
 		ModelAndView mav=new ModelAndView();
-		mav.setViewName("redirect:/notice/list.do");
+//		mav.setViewName("redirect:/notice/list.do");
+		mav.setViewName("notice/msgView");
 
 		int count=dao.create(dto);
-		
 		
 		if(count==0) {
 			mav.addObject("msg1", "등록이 실패하였습니다. ");
@@ -83,7 +110,8 @@ public class NoticeController {
 		return mav;
 	} // createProc() end
 	
-
+	
+	// 글 수정 (폼)
 	@RequestMapping(value="notice/update.do", method=RequestMethod.GET)
 	public ModelAndView update(NoticeDTO dto) {
 		ModelAndView mav=new ModelAndView();
@@ -95,7 +123,8 @@ public class NoticeController {
 		return mav;
 	} // update() end
 	
-
+	
+	// 글 수정
 	@RequestMapping(value="notice/update.do", method=RequestMethod.POST)
 	public ModelAndView updateProc(NoticeDTO dto, HttpServletRequest req) {
 		ModelAndView mav=new ModelAndView();
@@ -120,7 +149,8 @@ public class NoticeController {
 		return mav;
 	} // updateProc() end
 	
-
+	
+	// 글 삭제 (확인창)
 	@RequestMapping(value="notice/delete.do", method=RequestMethod.GET)
 	public ModelAndView delete(NoticeDTO dto) {
 		ModelAndView mav=new ModelAndView();
@@ -132,7 +162,8 @@ public class NoticeController {
 		return mav;
 	} // delete() end
 	
-
+	
+	// 글 삭제
 	@RequestMapping(value="notice/delete.do", method=RequestMethod.POST)
 	public ModelAndView deleteProc(NoticeDTO dto, HttpServletRequest req) {
 		ModelAndView mav=new ModelAndView();

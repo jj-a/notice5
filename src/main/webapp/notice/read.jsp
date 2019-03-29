@@ -38,9 +38,9 @@
 			</table>
 		</div>
 		<div class="bottom">
-			<input type="button" value="목록" onclick="window.location.href='../'">&nbsp;
+			<input type="button" value="삭제" onclick="window.location.href='./delete.do?noticeno=${article.noticeno }'">&nbsp;
 			<input type="button" value="수정" onclick="window.location.href='./update.do?noticeno=${article.noticeno }'">&nbsp; 
-			<input type="button" value="삭제" onclick="window.location.href='./delete.do?noticeno=${article.noticeno }'">
+			<input type="button" value="목록" onclick="window.location.href='../'">
 		</div>
 	</div>
 

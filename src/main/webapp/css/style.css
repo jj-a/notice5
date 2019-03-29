@@ -33,10 +33,18 @@ a:link {
 	background-color: #fffafa;
 }
 
+.list table {
+	margin: 20px 0 50px 0;
+}
+
 #form {
 	border: 1px solid lightgrey;
 	padding: 0px 0px 20px 0px;
 	margin: 30px 10% 30px 10%;
+}
+
+#searchform {
+	margin: 0 auto;
 }
 
 #playlist {
@@ -63,17 +71,27 @@ div.title {
 .writetb td, .writetb th {
 	padding: 10px;
 }
+
 .bottom {
 	padding: 10px;
 }
 
-.bottom>input {
-	width: 100px;
+.bottom input, .bottom select {
 	height: 30px;
+	vertical-align: middle;
+}
+
+.bottom input[type="button"], .bottom input[type="submit"] {
+	width: 100px;
 }
 
 .title .musictitle {
 	color: pink;
 	font-size: 0.8em;
 	margin: 20px;
+}
+
+.count {
+	margin-bottom: 20px;
+	text-align: left;
 }
